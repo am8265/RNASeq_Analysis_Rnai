@@ -6,18 +6,18 @@ library(optparse)
 
 
 ## reading input files
+
 readFile <- function(x) {
   conn = file(x, open = "r")
   line = readLines(conn)
   line_vec = c()
   for (i in 1:length(line)) {
-    line_vec = c(line_vec, i)
+    line_vec = c(line_vec, line[i])
   }
   close(conn)
   
   return(line_vec)
 }
-    
 
 
 ##Reading command-line arguments in R
@@ -38,9 +38,9 @@ opt = parse_args(opt_parser)
 
 
 ##Set up the working directory accordingly
-setwd("/Users/ayanmalakar/UKALLURI03162017")
+#setwd("/Users/ayanmalakar/UKALLURI03162017")
 
-fpkm_counts=read.csv("fpkm_counts_mod.2.csv", header = T, row.names = 1)
+fpkm_counts=read.csv("fpkm_counts_mod.2.csv", header = T, row.names = 1, check.names = F)
 fpkm_counts_dummy=fpkm_counts
 
 fpkm_counts=fpkm_counts[,c(-16,-17)]# assuming the last 2 columns have geneDescriptions which we are dropping!
@@ -49,6 +49,7 @@ fpkm_counts[]=lapply(fpkm_counts, function(x){log2(x+1)})# Log transformation of
 
 ##################
 file.list=c("cond_1v3.csv","cond_1v5.csv","cond_2v4.csv","cond_2v6.csv")
+
 intsct.sig.genes.UK=character()
 intsct.sig.genes.AM=character()
 c=0
@@ -95,27 +96,27 @@ for (items in file.list){
 }
 
 ######Heatmap of Combined top 20s#############
-hmcol = colorRampPalette(c("red","yellow","green"))(n=299)
-png("fpkm_counts.union.ofTop20.AM.png",height = 5*300, width = 5*300, res=300, pointsize = 8)
-geneID = rownames(combined.top20.sig.genes.AM)
-geneNames = fpkm_counts_dummy[geneID,16]
-top80.union.AM.names.row = sub('^NA:', '', x = paste(geneNames, geneID, sep = ":"))
-heatmap.2(combined.top20.sig.genes.AM, labRow = top80.union.AM.names.row, offsetRow = -0.6, 
-          col = hmcol, trace="none", margin=c(6, 20),srtCol=30, offsetCol =-1.5,cexCol=1.0,ColSideColors = c(rep("gray",3),rep("blue",3),rep("black",2),rep("orange",2),rep("darkgreen",3),rep("navyblue",2)))
-par(lend=1)
-legend(x=0.78,y=1, legend=c("X717c.Control_A_Shoot","X717c.Control.A_Axillary.bud","IAA7.52_shoot.tip","IAA7.52_axillary.bud","IAA7.54_shoot.tip","IAA7.54_axillary.bud"), col = c("gray","blue","black","orange","darkgreen","navyblue"), lty=1:2,lwd=10, box.lty = 0,cex=0.5)
-dev.off()
-
-hmcol = colorRampPalette(c("red","yellow","green"))(n=299)
-png("fpkm_counts.union.ofTop20.UK.png",height = 5*300, width = 5*300, res=300, pointsize = 8)
-geneID = rownames(combined.top20.sig.genes.UK)
-geneNames = fpkm_counts_dummy[geneID,16]
-top80.union.UK.names.row = sub('^NA:', '', x = paste(geneNames, geneID, sep = ":"))
-heatmap.2(combined.top20.sig.genes.UK, labRow = top80.union.UK.names.row, offsetRow = -0.6, 
-          col = hmcol, trace="none", margin=c(6, 20),srtCol=30, offsetCol =-1.5,cexCol=1.0,ColSideColors = c(rep("gray",3),rep("blue",3),rep("black",2),rep("orange",2),rep("darkgreen",3),rep("navyblue",2)))
-par(lend=1)
-legend(x=0.78,y=1, legend=c("X717c.Control_A_Shoot","X717c.Control.A_Axillary.bud","IAA7.52_shoot.tip","IAA7.52_axillary.bud","IAA7.54_shoot.tip","IAA7.54_axillary.bud"), col = c("gray","blue","black","orange","darkgreen","navyblue"), lty=1:2,lwd=10, box.lty = 0,cex=0.5)
-dev.off()
+# hmcol = colorRampPalette(c("red","yellow","green"))(n=299)
+# png("fpkm_counts.union.ofTop20.AM.png",height = 5*300, width = 5*300, res=300, pointsize = 8)
+# geneID = rownames(combined.top20.sig.genes.AM)
+# geneNames = fpkm_counts_dummy[geneID,16]
+# top80.union.AM.names.row = sub('^NA:', '', x = paste(geneNames, geneID, sep = ":"))
+# heatmap.2(combined.top20.sig.genes.AM, labRow = top80.union.AM.names.row, offsetRow = -0.6, 
+#           col = hmcol, trace="none", margin=c(6, 20),srtCol=30, offsetCol =-1.5,cexCol=1.0,ColSideColors = c(rep("gray",3),rep("blue",3),rep("black",2),rep("orange",2),rep("darkgreen",3),rep("navyblue",2)))
+# par(lend=1)
+# legend(x=0.78,y=1, legend=c("X717c.Control_A_Shoot","X717c.Control.A_Axillary.bud","IAA7.52_shoot.tip","IAA7.52_axillary.bud","IAA7.54_shoot.tip","IAA7.54_axillary.bud"), col = c("gray","blue","black","orange","darkgreen","navyblue"), lty=1:2,lwd=10, box.lty = 0,cex=0.5)
+# dev.off()
+# 
+# hmcol = colorRampPalette(c("red","yellow","green"))(n=299)
+# png("fpkm_counts.union.ofTop20.UK.png",height = 5*300, width = 5*300, res=300, pointsize = 8)
+# geneID = rownames(combined.top20.sig.genes.UK)
+# geneNames = fpkm_counts_dummy[geneID,16]
+# top80.union.UK.names.row = sub('^NA:', '', x = paste(geneNames, geneID, sep = ":"))
+# heatmap.2(combined.top20.sig.genes.UK, labRow = top80.union.UK.names.row, offsetRow = -0.6, 
+#           col = hmcol, trace="none", margin=c(6, 20),srtCol=30, offsetCol =-1.5,cexCol=1.0,ColSideColors = c(rep("gray",3),rep("blue",3),rep("black",2),rep("orange",2),rep("darkgreen",3),rep("navyblue",2)))
+# par(lend=1)
+# legend(x=0.78,y=1, legend=c("X717c.Control_A_Shoot","X717c.Control.A_Axillary.bud","IAA7.52_shoot.tip","IAA7.52_axillary.bud","IAA7.54_shoot.tip","IAA7.54_axillary.bud"), col = c("gray","blue","black","orange","darkgreen","navyblue"), lty=1:2,lwd=10, box.lty = 0,cex=0.5)
+# dev.off()
 
 
 
@@ -134,9 +135,21 @@ png("fpkm_counts.intsct.AM.png",height = 5*300, width = 5*300, res=300, pointsiz
 #####The list of 70 genes########
 #fpkm_counts.intsct.AM <-fpkm_counts.intsct.AM [order(-rowMeans(fpkm_counts.intsct.AM)),][c(1:70),]
 
+print(opt$conditionList)
 samples_list = readFile(opt$conditionList)#sample_list must be less < length(colnames)
-gene_ids= readFile(opt$geneIDs) 
+print(samples_list)
 
+# df = rep(0,length(samples_list))
+# dim(df) = c(1,length(samples_list))
+# df = as.data.frame(df)
+# colnames(df) <- samples_list
+# 
+# samples_list <- colnames(df)
+
+gene_ids= readFile(opt$geneIDs) 
+print(gene_ids)
+
+print(head(fpkm_counts.intsct.AM))
 fpkm_counts.intsct.AM.u <- fpkm_counts.intsct.AM[,samples_list] # subsetting the expMatrix based on samples list
 
 ##Assert if the geneIDs are SUBSET of the intsct.sig.genes.AM! ... so the user has to know the geneIDs which are "commonly" found
