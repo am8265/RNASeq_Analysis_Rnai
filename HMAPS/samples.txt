@@ -1,0 +1,15 @@
+717c Control_A_Shoot tip_1
+717c Control_A_Shoot tip_2
+717c Control_A_Shoot tip_3
+717c Control A_Axillary bud_1
+717c Control A_Axillary bud_2
+717c Control A_Axillary bud_3
+IAA7-52_shoot tip_2
+IAA7-52_shoot tip_3
+IAA7-52_axillary bud_2
+IAA7-52_axillary bud_3
+IAA7-54_shoot tip_1
+IAA7-54_shoot tip_2
+IAA7-54_shoot tip_3
+IAA7-54_axillary bud_1
+IAA7-54_axillary bud_3
